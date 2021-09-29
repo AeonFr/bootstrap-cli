@@ -14,16 +14,7 @@ export const CommandSelectorWrapped = () => {
 	}, []);
 
 	const onSelectCommand = ({ command }: { command: string }) => {
-		exit();
-		execCommand(command);
-	};
-
-	const onAddCategory = () => {
-		//
-	};
-
-	const onAddAction = ({ selectedCategory }: { selectedCategory: number }) => {
-		//
+		execCommand(command).then(exit);
 	};
 
 	if (!isRawModeSupported) {
@@ -38,11 +29,5 @@ export const CommandSelectorWrapped = () => {
 		);
 	}
 
-	return (
-		<CommandSelector
-			onSelectCommand={onSelectCommand}
-			onAddCategory={onAddCategory}
-			onAddAction={onAddAction}
-		/>
-	);
+	return <CommandSelector onSelectCommand={onSelectCommand} />;
 };

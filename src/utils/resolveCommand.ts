@@ -1,5 +1,5 @@
 import { buildCommand } from './buildCommand';
-import { getCategories } from './getCategories';
+import { getCategories } from './CategoriesRepository';
 
 export function resolveCommand(
 	categoryName: string,
