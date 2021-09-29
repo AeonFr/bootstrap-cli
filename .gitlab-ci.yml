@@ -1,0 +1,15 @@
+stages:
+  - npm_package
+
+npm_package:
+  image: node:12.22.2
+  stage: npm_package
+  when: always
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  cache:
+    paths:
+      - .npm/
+  script:
+    - echo -e "\n//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - npm run publishIfNewerVersion

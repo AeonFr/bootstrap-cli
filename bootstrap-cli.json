@@ -1,0 +1,17 @@
+{
+	"categories": [
+		{
+			"name": "example",
+			"commandTemplate": "echo 'executing :command_name' && :command_script",
+			"actions": [
+				{
+					"name": "test",
+					"commandParams": {
+						"command_script": "test",
+						"command_name": "test command"
+					}
+				}
+			]
+		}
+	]
+}

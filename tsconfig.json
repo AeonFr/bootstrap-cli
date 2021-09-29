@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"jsx": "react",
+		"esModuleInterop": true,
+		"noImplicitAny": true,
+		"declaration": true,
+		"module": "commonjs",
+		"outDir": "out",
+		"sourceMap": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"lib": ["ES2015"]
+	},
+	"include": ["src/**/*"]
+}

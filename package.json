@@ -1,0 +1,39 @@
+{
+	"name": "bootstrap-cli",
+	"version": "1.0.1",
+	"description": "A CLI to organize and alias bash commands",
+	"main": "index.js",
+	"scripts": {
+		"build": "rm -rf ./lib && babel src -d lib --extensions \".ts\" --extensions \".tsx\"",
+		"prepublishOnly": "npm run build"
+	},
+	"bin": {
+		"bootstrap": "./lib/index.js"
+	},
+	"files": [
+		"lib/*",
+		"bootstrap-cli.json"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/aeonfr/bootstrap-cli.git"
+	},
+	"author": "Francisco Brusa",
+	"license": "MIT",
+	"devDependencies": {
+		"@babel/cli": "^7.14.8",
+		"@babel/core": "^7.15.0",
+		"@babel/preset-env": "^7.15.0",
+		"@babel/preset-react": "^7.14.5",
+		"@babel/preset-typescript": "^7.15.0",
+		"@types/node": "^16.4.13",
+		"@types/react": "^17.0.16"
+	},
+	"dependencies": {
+		"ink": "^3.0.9",
+		"ink-box": "^1.0.0",
+		"ink-image": "^2.0.0",
+		"ink-markdown": "^1.0.1",
+		"react": "^17.0.2"
+	}
+}
