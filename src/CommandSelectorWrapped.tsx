@@ -14,7 +14,8 @@ export const CommandSelectorWrapped = () => {
 	}, []);
 
 	const onSelectCommand = ({ command }: { command: string }) => {
-		execCommand(command).then(exit);
+		exit();
+		execCommand(command);
 	};
 
 	if (!isRawModeSupported) {
