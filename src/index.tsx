@@ -1,39 +1,47 @@
 #! /usr/bin/env node
 import React from 'react';
-import { render, useApp } from 'ink';
+import { render, useApp, Text } from 'ink';
 import { execCommand } from './utils/execCommand';
 import { resolveCommand } from './utils/resolveCommand';
 import { Help } from './Help';
 import { CommandSelectorWrapped } from './CommandSelectorWrapped';
+import { Command } from './components/Command';
 
-const repoName = process.argv[2];
-const commandName = process.argv[3];
+const categoryName = process.argv[2];
+const actionName = process.argv[3];
 
 const App: React.FC = () => {
 	const { exit } = useApp();
 
-	if ((repoName === 'help' || repoName === '--help') && !commandName) {
+	if ((categoryName === 'help' || categoryName === '--help') && !actionName) {
 		return <Help />;
-	} else if (repoName && !commandName) {
-		// 0 or 2 arguments expected, only 1 provided
-		return <Help />;
-	} else if (repoName && commandName) {
-		// bootstrap-cli {repo} {command}
+	} else if (categoryName && !actionName) {
+		process.exitCode = 50;
+		setTimeout(exit, 0);
+		return <Text color="red">0 or 2 arguments expected, only 1 provided</Text>;
+	} else if (categoryName && actionName) {
 		try {
-			exit();
-			const command = resolveCommand(repoName, commandName);
-			execCommand(command);
+			const command = resolveCommand(categoryName, actionName);
+			setTimeout(() => {
+				exit();
+				execCommand(command);
+			}, 0);
+			return (
+				<Command
+					categoryName={categoryName}
+					actionName={actionName}
+					command={command}
+				/>
+			);
 		} catch (error) {
-			exitWithError(error.message);
+			// Show command not found errors
+			process.exitCode = 100;
+			setTimeout(exit, 0);
+			return <Text color="red">{error.message}</Text>;
 		}
 	} else {
 		return <CommandSelectorWrapped />;
 	}
 };
-
-function exitWithError(message: string) {
-	console.log(`\x1b[31mERROR: ` + message + `\x1b[0m`);
-	process.exit(404);
-}
 
 render(<App />);

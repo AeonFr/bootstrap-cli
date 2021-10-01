@@ -1,13 +1,24 @@
 import React from 'react';
-import { Text } from 'ink';
+import { Box, Text, Spacer } from 'ink';
 
 interface CommandProps {
+	categoryName?: string;
+	actionName?: string;
 	command: string;
 }
-export const Command: React.FC<CommandProps> = ({ command }) => {
+export const Command: React.FC<CommandProps> = ({
+	categoryName,
+	actionName,
+	command,
+}) => {
 	return (
-		<Text color="gray">
-			› <Text color="yellow">{command}</Text>
-		</Text>
+		<Box flexDirection="column">
+			{categoryName && actionName && (
+				<Text color="gray">
+					› bootstrap {categoryName} {actionName}
+				</Text>
+			)}
+			<Text color="cyan">› {command}</Text>
+		</Box>
 	);
 };

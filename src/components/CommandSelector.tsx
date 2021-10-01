@@ -208,19 +208,24 @@ export const CommandSelector: React.FC<Props> = ({ onSelectCommand }) => {
 							);
 						})}
 					</Box>
-					<Box flexGrow={1}>
-						{state.matches('listActions') ? (
-							!!command ? (
-								<Command command={command} />
-							) : (
-								<Text>(no command)</Text>
-							)
-						) : null}
-					</Box>
 				</Box>
 			)}
 			<Box minHeight={2} flexDirection="column">
-				{state.matches('executeCommand') && <Command command={command} />}
+				{state.matches('listActions') ? (
+					!!command ? (
+						<Command command={command} />
+					) : (
+						<Text color="gray">(no command)</Text>
+					)
+				) : null}
+
+				{state.matches('executeCommand') && (
+					<Command
+						categoryName={categories[focusedCategory].name}
+						actionName={categories[focusedCategory].actions[focusedAction].name}
+						command={command}
+					/>
+				)}
 
 				{state.matches('listCategories') && (
 					<>
@@ -281,18 +286,8 @@ const Item: React.FC<ItemProps> = ({
 }) => {
 	return (
 		<Box {...props}>
-			<Text
-				color="green"
-				backgroundColor={isFocused && !isDisabled ? 'blackBright' : ''}
-			>
-				{isFocused ? '› ' : '  '}
-			</Text>
-			<Text
-				color={!isFocused && isDisabled ? 'gray' : 'white'}
-				backgroundColor={isFocused && !isDisabled ? 'blackBright' : ''}
-			>
-				{label}
-			</Text>
+			<Text color="green">{isFocused ? '› ' : '  '}</Text>
+			<Text color={!isFocused && isDisabled ? 'gray' : 'white'}>{label}</Text>
 		</Box>
 	);
 };
