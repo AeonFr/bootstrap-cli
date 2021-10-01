@@ -182,19 +182,19 @@ export const CommandSelector: React.FC<Props> = ({ onSelectCommand }) => {
 		<Box flexDirection="column">
 			{false === state.matches('executeCommand') && (
 				<Box flexDirection="row" padding={2} marginBottom={2}>
-					<Box width={10} flexDirection="column" flexShrink={0}>
+					<Box width={12} flexDirection="column" flexShrink={0}>
 						{categories.map((category, i) => {
 							return (
 								<Item
 									key={category.name}
 									label={category.name}
 									isFocused={focusedCategory === i}
-									isDisabled={false === state.matches('selectCategory')}
+									isDisabled={false === state.matches('listCategories')}
 								/>
 							);
 						})}
 					</Box>
-					<Box width={24} flexDirection="column" minHeight={maxActionsCount}>
+					<Box width={12} flexDirection="column" minHeight={maxActionsCount}>
 						{categories[focusedCategory].actions.map((action, i) => {
 							return (
 								<Item
@@ -208,17 +208,18 @@ export const CommandSelector: React.FC<Props> = ({ onSelectCommand }) => {
 							);
 						})}
 					</Box>
+					<Box>
+						{state.matches('listActions') ? (
+							!!command ? (
+								<Command command={command} />
+							) : (
+								<Text color="gray">(no command)</Text>
+							)
+						) : null}
+					</Box>
 				</Box>
 			)}
 			<Box minHeight={2} flexDirection="column">
-				{state.matches('listActions') ? (
-					!!command ? (
-						<Command command={command} />
-					) : (
-						<Text color="gray">(no command)</Text>
-					)
-				) : null}
-
 				{state.matches('executeCommand') && (
 					<Command
 						categoryName={categories[focusedCategory].name}
@@ -227,16 +228,21 @@ export const CommandSelector: React.FC<Props> = ({ onSelectCommand }) => {
 					/>
 				)}
 
-				{state.matches('listCategories') && (
+				{(state.matches('listCategories') || state.matches('listActions')) && (
 					<>
-						<Text color="gray">
+						<Text>
 							Use cursors to move between options,{' '}
-							<Text color="white">return</Text> to select
+							<Text color="cyan">return</Text> to select
 						</Text>
-						{state.matches('listCategories') && (
-							<Text color="gray">
-								Press <Text color="white">a</Text> to add a category,{' '}
-								<Text color="white">d</Text> to delete selected category
+						{state.matches('listCategories') ? (
+							<Text>
+								Press <Text color="cyan">a</Text> to add a category,{' '}
+								<Text color="cyan">d</Text> to delete selected category
+							</Text>
+						) : (
+							<Text>
+								Press <Text color="cyan">a</Text> to add a command,{' '}
+								<Text color="cyan">d</Text> to delete selected command
 							</Text>
 						)}
 					</>
@@ -254,8 +260,7 @@ export const CommandSelector: React.FC<Props> = ({ onSelectCommand }) => {
 						<Text>
 							<Text color="green">?</Text> Are you sure you want to delete
 							category{' '}
-							<Text color="yellow">{categories[focusedCategory].name}</Text>?
-							[Yn]
+							<Text color="cyan">{categories[focusedCategory].name}</Text>? [Yn]
 						</Text>
 					</Box>
 				)}
@@ -286,8 +291,10 @@ const Item: React.FC<ItemProps> = ({
 }) => {
 	return (
 		<Box {...props}>
-			<Text color="green">{isFocused ? '› ' : '  '}</Text>
-			<Text color={!isFocused && isDisabled ? 'gray' : 'white'}>{label}</Text>
+			<Text color="cyan">{isFocused && !isDisabled ? '› ' : '  '}</Text>
+			<Text color={isFocused ? 'cyan' : isDisabled ? 'gray' : 'white'}>
+				{label}
+			</Text>
 		</Box>
 	);
 };

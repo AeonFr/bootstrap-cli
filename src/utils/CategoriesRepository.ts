@@ -59,7 +59,7 @@ export const addCategory = (name: string) => {
 		throw new Error(`Category "${name}" already exists.`);
 	}
 
-	if (!name || /[^a-zA-Z_-]/.test(name)) {
+	if (!name || /[^a-zA-Z0-9_-]/.test(name)) {
 		throw new Error(
 			`Category name can only contain letters, numbers and dashes or underscores.`
 		);
@@ -86,7 +86,7 @@ export const deleteCategory = (name: string) => {
 
 	if (!userCategories.some((category) => category.name === name)) {
 		throw new Error(
-			`Category "${name}" could not be deleted because it does not exist within user categories. Remember built-in categories can't be deleted. (Hint: Do you have multiple console tabs opened? Maybe it has been deleted already in a different tab).`
+			`Category "${name}" could not be deleted because it does not exist. (Hint: Do you have multiple console tabs opened? Maybe it has been deleted already in a different tab).`
 		);
 	}
 	writeToUserConfig({
